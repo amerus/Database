@@ -43,6 +43,7 @@ ORDER BY Times DESC;
 CREATE DATABASE IF NOT EXISTS products;
 USE products;
 
+DROP TABLE IF EXISTS storehouse_products;
 CREATE TABLE IF NOT EXISTS storehouses_products (
     `value` INT UNSIGNED NOT NULL
 );
@@ -61,4 +62,60 @@ ORDER BY
 CASE `value` WHEN 0 THEN TRUE ELSE FALSE
 END, `value` ASC;
 
-DROP TABLE storehouses_products;
+# Из таблицы users необходимо извлечь пользователей, родившихся в августе и мае. Месяцы заданы в виде списка английских названий ('may', 'august')
+
+USE vk;
+
+SELECT firstname, lastname, DATE_FORMAT(birthday,'%M') AS months 
+FROM profiles
+JOIN users ON user_id = id
+HAVING months IN ('May','August');
+
+# Из таблицы catalogs извлекаются записи при помощи запроса. SELECT * FROM catalogs WHERE id IN (5, 1, 2); Отсортируйте записи в порядке, 
+# заданном в списке IN.
+
+CREATE DATABASE IF NOT EXISTS HW5;
+USE HW5;
+
+DROP TABLE IF EXISTS catalogs;
+CREATE TABLE catalogs (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) COMMENT 'Название раздела',
+  UNIQUE unique_name(name(10))
+) COMMENT = 'Разделы интернет-магазина';
+
+INSERT INTO catalogs VALUES 
+    (NULL, "Processors"),
+    (NULL, "Motherboards"),
+    (NULL, "Video Cards"),
+    (NULL, "Hard Drives"),
+    (NULL, "Read-Only Memory");
+   
+SELECT * FROM catalogs WHERE id IN (5, 1, 2)
+ORDER BY
+CASE id
+   WHEN 5 THEN 0
+   WHEN 1 THEN 1
+   WHEN 2 THEN 2
+END,
+name ASC;
+
+# Подсчитайте произведение чисел в столбце таблицы
+CREATE DATABASE IF NOT EXISTS HW5;
+USE HW5;
+
+DROP TABLE IF EXISTS multiply; 
+CREATE TABLE IF NOT EXISTS multiply(
+    `value` SERIAL
+);
+
+INSERT INTO multiply(`value`) VALUES
+    (NULL),
+    (NULL),
+    (NULL),
+    (NULL),
+    (NULL);
+
+SELECT * FROM multiply 
+GROUP BY `value`;
+   
