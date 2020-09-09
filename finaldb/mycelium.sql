@@ -45,8 +45,6 @@ CREATE TABLE medicinal_uses (
 	`condition secondary` varchar(255),
 	mushroom_id BIGINT UNSIGNED
 	
-	# UNIQUE KEY condition_idx(`condition`)
-
 ) COMMENT 'лечебные свойства';
 
 # Внешние признаки.
